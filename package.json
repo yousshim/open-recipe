@@ -5,7 +5,8 @@
   "main": "./build/server/app.js",
   "scripts": {
     "dev": "tsnd --respawn ./src/server/app.ts",
-    "build": "tsc -p ."
+    "build": "tsc -p .",
+    "start": "node build/server/app.js"
   },
   "repository": {
     "type": "git",
