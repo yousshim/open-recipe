@@ -1,0 +1,53 @@
+{
+  "name": "open-recipe",
+  "version": "0.0.1",
+  "description": " the open source food store ",
+  "main": "./build/server/app.js",
+  "scripts": {
+    "dev": "tsnd --respawn ./src/server/app.ts",
+    "build": "tsc -p ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yousshim/open-recipe.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yousshim/open-recipe/issues"
+  },
+  "homepage": "https://github.com/yousshim/open-recipe#readme",
+  "devDependencies": {
+    "@types/bcrypt": "^3.0.1",
+    "@types/express": "^4.17.11",
+    "@types/express-session": "^1.17.3",
+    "@types/node": "^14.14.40",
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.3",
+    "@types/react-router-dom": "^5.1.7",
+    "autoprefixer": "^10.2.5",
+    "postcss": "^8.2.10",
+    "tailwindcss": "^2.1.1",
+    "ts-node": "^9.1.1",
+    "ts-node-dev": "^1.1.6",
+    "typescript": "^4.2.4",
+    "vite": "^2.1.5"
+  },
+  "dependencies": {
+    "apollo-server": "^2.23.0",
+    "apollo-server-express": "^2.23.0",
+    "bcrypt": "^5.0.1",
+    "class-validator": "^0.13.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "graphql": "^15.5.0",
+    "pg": "^8.6.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^5.2.0",
+    "reflect-metadata": "^0.1.13",
+    "type-graphql": "^1.1.1",
+    "typeorm": "^0.2.32"
+  }
+}
