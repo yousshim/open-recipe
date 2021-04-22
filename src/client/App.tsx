@@ -1,19 +1,29 @@
-import React from "react"
-import { Route, Switch } from 'react-router-dom'
+import React, { useState } from "react";
+import { Route, Switch } from "react-router-dom";
+import { Nav } from "./components/Nav";
 
-// Auto generates routes from files under ./pages
-// https://vitejs.dev/guide/features.html#glob-import
-// const pages = import.meta.globEager('./pages/*.jsx')
+import Home from "./pages/index";
+import Login from "./pages/login";
+import Signin from "./pages/signin";
+import { User, userContext } from "./UserContext"
+const routes = {
+  "/": Home,
+  "/login": Login,
+  "/signin": Signin,
+};
 
 export function App() {
+  const [user, setUser] = useState<User | null>(null)
   return (
-    <Switch>
-      <Route exact path="/">
-        <h1>HELLO WORLD</h1>
-      </Route>
-      <Route path="/uni">
-        <h1>HELLO UNIVERSE</h1>
-      </Route>
-    </Switch>
-  )
+    <userContext.Provider value={{user, setUser}}>
+      <Nav />
+      <Switch>
+        {Object.entries(routes).map(([path, Component]) => (
+          <Route key={path} exact path={path}>
+            <Component />
+          </Route>
+        ))}
+      </Switch>
+    </userContext.Provider>
+  );
 }

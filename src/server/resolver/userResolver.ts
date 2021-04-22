@@ -60,6 +60,7 @@ export class UserResolver {
   @Mutation((_) => User)
   logout(@Ctx() { req }: any) {
     const user = req.req.session.user;
+    req.req.session.destroy();
     delete req.req.session.user;
     return user;
   }

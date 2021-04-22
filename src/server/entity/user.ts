@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, PrimaryColumn } from "typeorm";
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import bcrypt from "bcrypt";
 import { Field, ObjectType } from "type-graphql";
 
@@ -6,14 +6,21 @@ import { Field, ObjectType } from "type-graphql";
 @Entity()
 export class User extends BaseEntity {
   @Field()
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Field()
+  @Column()
   handle: string;
+
   @Field()
   @Column()
   email: string;
+
   @Field()
   @Column()
   name: string;
+
   @Column()
   passwordHash: string;
 
