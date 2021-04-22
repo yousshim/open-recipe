@@ -19,6 +19,10 @@ setting postgress database with docker
 
 > pnpm install
 
-> pnpm run build
+> pnpm run build:client
+
+> pnpm run build:server
+
+> pnpm run build:express
 
 > pnpm run start

@@ -1,5 +1,7 @@
+import { defineConfig } from 'vite'
 import reactRefresh from '@vitejs/plugin-react-refresh'
 
-export default {
-  plugins: [reactRefresh()]
-}
+export default defineConfig({
+  plugins: [reactRefresh()],
+  root: "./src/client"
+})

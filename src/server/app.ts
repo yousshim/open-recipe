@@ -7,7 +7,7 @@ import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import dotenv from "dotenv";
 import { createConnection } from "typeorm";
-import { createServer as createViteServer } from "vite";
+import { createServer as createViteServer, ViteDevServer } from "vite";
 import { User } from "./entity/user";
 import { UserResolver } from "./resolver/userResolver";
 
@@ -66,25 +66,40 @@ async function main() {
 
   server.applyMiddleware({ app });
 
-  const vite = await createViteServer({
-    server: {
-      middlewareMode: true,
-    },
-  });
+  let vite: ViteDevServer;
+  if (__DEV__) {
+    vite = await createViteServer({
+      server: {
+        middlewareMode: true,
+      },
+    });
 
-  app.use(vite.middlewares);
+    app.use(vite.middlewares);
+  } else {
+    app.use(Express.static(join(__dirname, "..", "client")));
+  }
 
   app.get("*", async (req, res) => {
     const url = req.originalUrl;
 
-    const template = await vite.transformIndexHtml(
-      url,
-      readFileSync(join(__dirname, "..", "client", "index.html"), "utf-8")
-    );
+    let template: string;
+    let render: any;
+    if (__DEV__) {
+      template = await vite.transformIndexHtml(
+        url,
+        readFileSync(join(__dirname, "..", "client", "index.html"), "utf-8")
+      );
 
-    const { render } = await vite.ssrLoadModule(
-      join(__dirname, "..", "client", "entry-server.tsx")
-    );
+      ({ render } = await vite.ssrLoadModule(
+        join(__dirname, "..", "client", "entry-server.tsx")
+      ));
+    } else {
+      template = readFileSync(
+        join(__dirname, "..", "client", "index.html"),
+        "utf-8"
+      );
+      ({ render } = require("../client/entry-server"));
+    }
 
     const html = template.replace("<!--SSR-CONTENT-->", render(url));
 

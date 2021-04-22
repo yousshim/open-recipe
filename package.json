@@ -5,8 +5,11 @@
   "main": "./build/server/app.js",
   "scripts": {
     "dev": "tsnd --respawn ./src/server/app.ts",
-    "build": "tsc -p .",
-    "start": "node build/server/app.js"
+    "build:client": "vite build --outDir ../../build/client",
+    "build:server": "vite build --outDir ../../build/client --ssr entry-server.tsx",
+    "build:express": "tsc -p .",
+    "clean": "rm -rd build",
+    "start": "env=prod node build/server/app.js"
   },
   "repository": {
     "type": "git",
