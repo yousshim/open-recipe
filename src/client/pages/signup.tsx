@@ -56,7 +56,7 @@ export default function SignupPage() {
                 login
               </Link>
               <button
-                type="submit"
+                 type="submit"
                 disabled={isSubmitting}
                 className="capitalize text-indigo-800 font-bold px-3 py-2 bg-indigo-200 rounded-lg"
               >

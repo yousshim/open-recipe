@@ -63,8 +63,7 @@ async function main() {
       cookie: { secure: false },
     })
   );
-
-  server.applyMiddleware({ app });
+  app.use(server.getMiddleware());
 
   let vite: ViteDevServer;
   if (__DEV__) {

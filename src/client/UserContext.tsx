@@ -29,44 +29,48 @@ type UserContext = {
 };
 
 const loginQuery = `
-mutation($email: String!, $password: String!) {
-  login(loginInput:{
-    email: $email,
-    password: $password,
-  }) {
-    ... on User {
-      email
-			handle
-    	name
-    }
-    ... on Error {
-      message
-      path
+  mutation($email: String!, $password: String!) {
+    login(loginInput: { email: $email, password: $password }) {
+      ... on User {
+        email
+        handle
+        name
+      }
+      ... on Error {
+        message
+        path
+      }
     }
   }
-}
-  `;
+`;
 
 const signupQuery = `
-mutation($email: String!, $password: String!, $name: String!, $handle: String!) {
-  createAccount(userInput:{
-    email: $email,
-    password: $password,
-    handle: $handle,
-    name: $name,
-  }) {
-    ... on User {
-      email
-			handle
-    	name
-    }
-    ... on Error {
-      message
-      path
+  mutation(
+    $email: String!
+    $password: String!
+    $name: String!
+    $handle: String!
+  ) {
+    createAccount(
+      userInput: {
+        email: $email
+        password: $password
+        handle: $handle
+        name: $name
+      }
+    ) {
+      ... on User {
+        email
+        handle
+        name
+      }
+      ... on Error {
+        message
+        path
+      }
     }
   }
-}
-  `;
+`;
 
 const logoutQuery = `
   mutation {
@@ -111,7 +115,7 @@ export function UserProvider({ children }: any) {
     return gqlQuery({ query: loginQuery, variables: { email, password } })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
+        console.log(data);
         const { email, handle, name } = data.data.login;
         setUser({ email, handle, name });
       });
@@ -129,7 +133,7 @@ export function UserProvider({ children }: any) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
+        console.log(data);
         const { email, name, handle } = data.data.createAccount;
         setUser({ email, handle, name });
       });
