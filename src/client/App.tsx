@@ -9,7 +9,7 @@ import { User, userContext } from "./UserContext"
 const routes = {
   "/": Home,
   "/login": Login,
-  "/signin": Signin,
+  "/signup": Signin,
 };
 
 export function App() {
