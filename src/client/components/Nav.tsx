@@ -3,26 +3,9 @@ import { MenuIcon, XIcon } from "@heroicons/react/solid";
 import { Link } from "react-router-dom";
 import { userContext } from "../UserContext";
 
-function logout() {
-  return fetch("http://localhost:4000/graphql", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    // body: `{"query":"mutation {login(loginInput:{ email: "${email}", password: "${password}",}) {email handle name}}"}'`,
-    body: JSON.stringify({
-      query: `
-      mutation {
-        logout({}
-      }
-        `,
-    }),
-  })
-}
-
 export function Nav() {
   const [showOverlay, setShowOverlay] = useState(false);
-  const { user, setUser } = useContext(userContext);
+  const { user, logout } = useContext(userContext);
   return (
     <nav className="bg-indigo-400 h-16 text-gray-200 flex justify-between px-5">
       <h1 className="text-2xl font-bold my-auto uppercase tracking-widest">
@@ -80,7 +63,6 @@ export function Nav() {
               <button
                 onClick={() => {
                   logout();
-                  setUser(null);
                   setShowOverlay(false);
                 }}
                 className="uppercase"

@@ -5,7 +5,7 @@ import { Nav } from "./components/Nav";
 import Home from "./pages/index";
 import Login from "./pages/login";
 import Signin from "./pages/signin";
-import { User, userContext } from "./UserContext"
+import { UserProvider } from "./UserContext"
 const routes = {
   "/": Home,
   "/login": Login,
@@ -13,9 +13,8 @@ const routes = {
 };
 
 export function App() {
-  const [user, setUser] = useState<User | null>(null)
   return (
-    <userContext.Provider value={{user, setUser}}>
+    <UserProvider>
       <Nav />
       <Switch>
         {Object.entries(routes).map(([path, Component]) => (
@@ -24,6 +23,6 @@ export function App() {
           </Route>
         ))}
       </Switch>
-    </userContext.Provider>
+    </UserProvider>
   );
 }

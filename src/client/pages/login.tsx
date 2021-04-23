@@ -5,57 +5,9 @@ import { Link } from "react-router-dom";
 import { TextInput } from "../components/TextInput";
 import { userContext } from "../UserContext";
 
-function login(email: string, password: string) {
-  return fetch("http://localhost:4000/graphql", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      query: `
-      mutation($email: String!, $password: String!) {
-        login(loginInput:{
-          email: $email,
-          password: $password,
-        }) {
-          email
-          handle
-          name
-        }
-      }
-        `,
-      variables: {
-        email,
-        password,
-      },
-    }),
-  })
-    .then((res) => {
-      return res.json();
-    })
-    .then((data) => {
-      console.log(data)
-      const { email, handle, name } = data.data.login;
-      return {
-        email,
-        handle,
-        name,
-      };
-    });
-}
-
-interface LoginProps {
-  email: string;
-  password: string;
-}
-
-interface Errors {
-  email?: string;
-  password?: string;
-}
 
 export default function LoginPage() {
-  const { setUser } = useContext(userContext);
+  const { login } = useContext(userContext);
   return (
     <div className="bg-indigo-400 h-96 flex items-center justify-center">
       <Formik
@@ -64,13 +16,7 @@ export default function LoginPage() {
           password: "",
         }}
         onSubmit={({ email, password }, { setSubmitting }) => {
-          login(email, password).then(({ email, name, handle }) => {
-            setUser({
-              email,
-              name,
-              handle,
-            });
-          });
+          login({email, password});
           setSubmitting(false);
         }}
         validationSchema={Yup.object({

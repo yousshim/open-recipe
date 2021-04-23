@@ -5,62 +5,8 @@ import * as Yup from "yup";
 import { TextInput } from "../components/TextInput";
 import { userContext } from "../UserContext";
 
-interface SigninProps {
-  email: string;
-  password: string;
-  handle: string;
-  name: string;
-}
-
-interface Errors {
-  email?: string;
-  password?: string;
-  handele?: string;
-  name?: string;
-}
-
-function signin(email: string, password: string, handle: string, name: string) {
-  return fetch("http://localhost:4000/graphql", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      query: `
-      mutation($email: String!, $password: String!, $name: String!, $handle: String!) {
-        createAccount(userInput:{
-          email: $email,
-          password: $password,
-          handle: $handle,
-          name: $name,
-        }) {
-          email
-              handle
-          name
-        }
-      }
-        `,
-      variables: {
-        email,
-        password,
-        handle,
-        name,
-      },
-    }),
-  })
-    .then((res) => res.json())
-    .then((data) => data.data.createAccount)
-    .then(({ email, name, handle }) => {
-      return {
-        email,
-        name,
-        handle,
-      };
-    });
-}
-
-export default function SigninPage() {
-  const { setUser } = useContext(userContext);
+export default function SignupPage() {
+  const { signup } = useContext(userContext);
   return (
     <div className="bg-indigo-400 h-96 flex items-center justify-center">
       <Formik
@@ -71,15 +17,7 @@ export default function SigninPage() {
           name: "",
         }}
         onSubmit={({ email, password, handle, name }, { setSubmitting }) => {
-          signin(email, password, handle, name).then(
-            ({ email, name, handle }) => {
-              setUser({
-                email,
-                name,
-                handle,
-              });
-            }
-          );
+          signup({ email, password, handle, name });
           setSubmitting(false);
         }}
         validationSchema={Yup.object({
