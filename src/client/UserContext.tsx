@@ -34,9 +34,15 @@ mutation($email: String!, $password: String!) {
     email: $email,
     password: $password,
   }) {
-    email
-    handle
-    name
+    ... on User {
+      email
+			handle
+    	name
+    }
+    ... on Error {
+      message
+      path
+    }
   }
 }
   `;
@@ -49,16 +55,32 @@ mutation($email: String!, $password: String!, $name: String!, $handle: String!) 
     handle: $handle,
     name: $name,
   }) {
-    email
-        handle
-    name
+    ... on User {
+      email
+			handle
+    	name
+    }
+    ... on Error {
+      message
+      path
+    }
   }
 }
   `;
 
 const logoutQuery = `
   mutation {
-    logout({}
+    logout({
+      ... on User {
+        email
+        handle
+        name
+      }
+      ... on Error {
+        message
+        path
+      }
+    }
   }
     `;
 
@@ -89,6 +111,7 @@ export function UserProvider({ children }: any) {
     return gqlQuery({ query: loginQuery, variables: { email, password } })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data)
         const { email, handle, name } = data.data.login;
         setUser({ email, handle, name });
       });
@@ -106,6 +129,7 @@ export function UserProvider({ children }: any) {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data)
         const { email, name, handle } = data.data.createAccount;
         setUser({ email, handle, name });
       });

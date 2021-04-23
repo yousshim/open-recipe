@@ -4,12 +4,12 @@ import { Nav } from "./components/Nav";
 
 import Home from "./pages/index";
 import Login from "./pages/login";
-import Signin from "./pages/signin";
-import { UserProvider } from "./UserContext"
+import Signup from "./pages/signup";
+import { UserProvider } from "./UserContext";
 const routes = {
   "/": Home,
   "/login": Login,
-  "/signup": Signin,
+  "/signup": Signup,
 };
 
 export function App() {

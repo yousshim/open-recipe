@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
-import * as Yup from "yup";
 import { TextInput } from "../components/TextInput";
 import { userContext } from "../UserContext";
+import { SignupValidationSchema } from "../../shared/utils/validation";
 
 export default function SignupPage() {
   const { signup } = useContext(userContext);
@@ -20,20 +20,7 @@ export default function SignupPage() {
           signup({ email, password, handle, name });
           setSubmitting(false);
         }}
-        validationSchema={Yup.object({
-          email: Yup.string()
-            .email("Invalid email address")
-            .required("Required"),
-          password: Yup.string()
-            .min(6, "Must be atleast 6 characters")
-            .required("Required"),
-          handle: Yup.string()
-            .min(4, "Must be atleast 4 characters")
-            .max(15, "Must be less than 6 characters"),
-          name: Yup.string()
-            .min(6, "Must be atleast 4 characters")
-            .max(15, "Must be less than 6 characters"),
-        })}
+        validationSchema={SignupValidationSchema}
       >
         {({ handleSubmit, isSubmitting }) => (
           <form onSubmit={handleSubmit} className="flex flex-col space-y-5">
@@ -69,10 +56,11 @@ export default function SignupPage() {
                 login
               </Link>
               <button
+                type="submit"
                 disabled={isSubmitting}
                 className="capitalize text-indigo-800 font-bold px-3 py-2 bg-indigo-200 rounded-lg"
               >
-                singin
+                signin
               </button>
             </div>
           </form>

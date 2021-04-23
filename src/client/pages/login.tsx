@@ -1,10 +1,9 @@
 import React, { useContext } from "react";
 import { Formik } from "formik";
-import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import { TextInput } from "../components/TextInput";
 import { userContext } from "../UserContext";
-
+import { loginValidationSchema } from "../../shared/utils/validation";
 
 export default function LoginPage() {
   const { login } = useContext(userContext);
@@ -16,17 +15,10 @@ export default function LoginPage() {
           password: "",
         }}
         onSubmit={({ email, password }, { setSubmitting }) => {
-          login({email, password});
+          login({ email, password });
           setSubmitting(false);
         }}
-        validationSchema={Yup.object({
-          email: Yup.string()
-            .email("Invalid email address")
-            .required("Required"),
-          password: Yup.string()
-            .min(6, "Must be atleast 6 characters")
-            .required("Required"),
-        })}
+        validationSchema={loginValidationSchema}
       >
         {({ handleSubmit, isSubmitting }) => (
           <form className="flex flex-col space-y-5" onSubmit={handleSubmit}>
