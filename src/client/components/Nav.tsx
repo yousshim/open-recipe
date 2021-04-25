@@ -1,78 +1,46 @@
-import React, { useContext, useState } from "react";
-import { MenuIcon, XIcon } from "@heroicons/react/solid";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { userContext } from "../UserContext";
+import { MenuIcon, XIcon } from "@heroicons/react/solid";
 
 export function Nav() {
-  const [showOverlay, setShowOverlay] = useState(false);
-  const { user, logout } = useContext(userContext);
+  const [showMenu, setShowMenu] = useState(false);
   return (
-    <nav className="bg-indigo-400 h-16 text-gray-200 flex justify-between px-5">
-      <h1 className="text-2xl font-bold my-auto uppercase tracking-widest">
-        <Link to="/">Open Food</Link>
+    <nav className="p-4 bg-indigo-400 flex justify-between">
+      <h1 className="text-2xl text-indigo-100 font-bold uppercase">
+        <Link to="/">open food</Link>
       </h1>
       <button
-        onClick={() => setShowOverlay(true)}
-        className="px-2 py-1 border-2 border-gray-200 rounded-lg my-auto focus:outline-none focus:border-white"
+        onClick={() => setShowMenu(true)}
+        className="w-8 h-8 text-indigo-200 focus:outline-none border-2 rounded-lg p-1"
       >
-        <MenuIcon className="w-6 h-6" />
+        <MenuIcon />
       </button>
-      <div
-        className={`${
-          showOverlay ? "" : "hidden"
-        } absolute inset-0 bg-indigo-400 flex flex-col items-center`}
-      >
-        <button
-          onClick={() => setShowOverlay(false)}
-          className="px-2 py-1 ml-auto mr-5 mt-5 focus:outline-none focus:border-white"
-        >
-          <XIcon className="w-6 h-6" />
-        </button>
-        <h1 className="uppercase tracking-widest font-bold text-5xl my-16">
-          <Link to="/" onClick={() => setShowOverlay(false)}>
-            open food
-          </Link>
-        </h1>
-        {!user ? (
-          <ul className="flex flex-col justify-center items-center text-gray-200 text-3xl">
-            <li className="mx-auto mt-5 pb-5 border-b-2">
-              <Link
-                onClick={() => setShowOverlay(false)}
-                to="/login"
-                className="uppercase"
-              >
-                login
-              </Link>
-            </li>
-            <li className="mx-auto mt-5 pb-5 border-b-2">
-              <Link
-                onClick={() => setShowOverlay(false)}
-                to="/signup"
-                className="uppercase"
-              >
-                signup
-              </Link>
-            </li>
-          </ul>
-        ) : (
-          <ul className="flex flex-col justify-center items-center text-gray-200 text-3xl">
-            <li className="mx-auto mt-5 pb-5 border-b-2">
-              <h1 className="uppercase">{user.name}</h1>
-            </li>
-            <li className="mx-auto mt-5 pb-5 border-b-2">
-              <button
-                onClick={() => {
-                  logout();
-                  setShowOverlay(false);
-                }}
-                className="uppercase"
-              >
-                logout
-              </button>
-            </li>
-          </ul>
-        )}
-      </div>
+      {showMenu && (
+        <div className="absolute inset-0 bg-indigo-400 flex flex-col">
+          <div className="text-indigo-200 flex justify-end p-4">
+            <button onClick={() => setShowMenu(false)} className="w-8 h-8">
+              <XIcon />
+            </button>
+          </div>
+          <h1 className="text-6xl text-indigo-100 font-bold uppercase mx-auto mt-10">
+            <Link onClick={() => setShowMenu(false)} to="/">open food</Link>
+          </h1>
+          <div className="flex justify-center items-center my-auto">
+            <ul className="flex flex-col space-y-8">
+              <li className="text-indigo-200 uppercase text-5xl border-b-2 text-center">
+                <Link onClick={() => setShowMenu(false)} to="/login">
+                  login
+                </Link>
+              </li>
+              <li className="text-indigo-200 uppercase text-5xl border-b-2 text-center">
+                <Link onClick={() => setShowMenu(false)} to="/signup">
+                  signup
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

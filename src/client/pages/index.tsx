@@ -1,5 +1,13 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 
-export default function HomePage() {
-  return <h1>HELLO WORLD from HOME</h1>;
+export function HomePage() {
+  return (
+    <>
+      <Helmet>
+        <title>HELMET</title>
+      </Helmet>
+      <h1>HELLO WORLD</h1>
+    </>
+  );
 }
