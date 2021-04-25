@@ -1,57 +1,49 @@
-import React, { useContext } from "react";
+import React from "react";
+import { Helmet } from "react-helmet";
 import { Formik } from "formik";
-import { Link } from "react-router-dom";
-import { TextInput } from "../components/TextInput";
-import { userContext } from "../UserContext";
-import { loginValidationSchema } from "../../shared/utils/validation";
+import * as yup from "yup"
+import { Button } from "../components/Button";
+import { TextInput } from "../components/TextInput"
 
-export default function LoginPage() {
-  const { login } = useContext(userContext);
+export function LoginPage() {
   return (
-    <div className="bg-indigo-400 h-96 flex items-center justify-center">
+    <>
+      <Helmet>
+        <title>HELMET</title>
+      </Helmet>
       <Formik
         initialValues={{
           email: "",
           password: "",
         }}
-        onSubmit={({ email, password }, { setSubmitting }) => {
-          login({ email, password });
-          setSubmitting(false);
+        onSubmit={(values) => {
+          alert(JSON.stringify(values, null, 2))
         }}
-        validationSchema={loginValidationSchema}
+        validationSchema={yup.object({
+          email: yup.string().email().required(),
+          password: yup.string().min(6),
+        })}
       >
-        {({ handleSubmit, isSubmitting }) => (
-          <form className="flex flex-col space-y-5" onSubmit={handleSubmit}>
+        {({ handleSubmit }) => (
+          <form className="bg-indigo-400 p-10 flex flex-col space-y-5" onSubmit={handleSubmit}>
             <TextInput
-              label="Email"
-              type="email"
+              label="email"
               name="email"
+              type="text"
               placeholder="example@email.com"
             />
             <TextInput
-              label="Password"
-              type="password"
+              label="password"
               name="password"
+              type="password"
               placeholder="password"
             />
-            <div className="flex justify-end space-x-3">
-              <Link
-                className="capitalize text-gray-200 px-3 py-2 border-2 border-gray-200 rounded-lg"
-                to="/signup"
-              >
-                signup
-              </Link>
-              <button
-                className="capitalize text-indigo-800 font-bold px-3 py-2 bg-indigo-200 rounded-lg"
-                disabled={isSubmitting}
-                type="submit"
-              >
-                login
-              </button>
+            <div className="flex justify-end">
+              <Button>login</Button>
             </div>
           </form>
         )}
       </Formik>
-    </div>
+    </>
   );
 }
